@@ -85,6 +85,12 @@
             {% endif %}
 
             {% widget 'CartAddProductAsSeparateItemWidget' only %}{% endwidget %}
+            
+            {% set productName = data.product.name | default %}
+
+            {% widget 'ProductSocialWidget' args [productName, data.product.url, ['linkedin', 'twitter']] %}
+            {% endwidget %}
+
         {% endblock %}
     {% endwidget %}
 

@@ -73,6 +73,8 @@
                 {{ block('rating') }}
             </div>
 
+            {% widget 'ProductSocialWidget' args [data.name, data.url, ['linkedin', 'twitter']] %} {% endwidget %}
+
             <meta class="{{ config.jsName }}__sku" itemprop="sku" content="{{ data.metaSku }}">
         {% endblock %}
     </div>
