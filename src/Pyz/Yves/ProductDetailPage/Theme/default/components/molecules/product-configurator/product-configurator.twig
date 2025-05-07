@@ -88,7 +88,7 @@
             
             {% set productName = data.product.name | default %}
 
-            {% widget 'ProductSocialWidget' args [productName, data.product.url, ['linkedin', 'twitter']] %}
+            {% widget 'ProductSocialWidget' args [productName, data.product.url, ['twitter', 'facebook', 'instagram', 'pinterest', 'linkedin']] %}
             {% endwidget %}
 
         {% endblock %}
