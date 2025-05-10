@@ -6,10 +6,25 @@
     <table name="pyz_antelope" idMethod="native" allowPkInsert="true" phpName="PyzAntelope">
         <column name="id_antelope" required="true" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="name" required="true" type="VARCHAR" size="255"/>
+        <column name="fk_antelope_location" required="true" type="INTEGER"/>
+
         <unique name="pyz_antelope-name">
             <unique-column name="name"/>
         </unique>
         <id-method-parameter value="pyz_antelope_pk_seq"/>
+
+        <foreign-key name="pyz_antelope_location-fk_antelope_location" foreignTable="pyz_antelope_location" phpName="PyzAntelopeLocation" refPhpName="AntelopeLocation">
+            <reference local="fk_antelope_location" foreign="id_location"/>
+        </foreign-key>
+    </table>
+
+    <table name="pyz_antelope_location" idMethod="native" allowPkInsert="true" phpName="PyzAntelopeLocation">
+        <column name="id_location" required="true" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="location_name" required="true" type="VARCHAR" size="120"/>
+        <unique name="pyz_antelope-location_name">
+            <unique-column name="location_name"/>
+        </unique>
+        <id-method-parameter value="pyz_antelope_location_pk_seq"/>
     </table>
 
 </database>
