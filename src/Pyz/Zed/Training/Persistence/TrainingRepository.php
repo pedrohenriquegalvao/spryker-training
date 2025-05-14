@@ -10,13 +10,13 @@ use Exception;
 
 class TrainingRepository extends AbstractRepository implements TrainingRepositoryInterface {
 
-   public function getAntelope(AntelopeCriteriaTransfer $antelopeCriteria): AntelopeTransfer {
+   public function getAntelope(AntelopeCriteriaTransfer $antelopeCriteria): AntelopeTransfer | null {
          $antelopeEntity = $this->getFactory() 
               ->createAntelopeQuery() 
               ->filterByName($antelopeCriteria->getName()) 
              ->findOne(); 
         if (!$antelopeEntity) { 
-           throw new Exception('Antelope not found'); 
+           return null;   
         } 
        $antelopeTransfer = new AntelopeTransfer(); 
        return $antelopeTransfer->fromArray($antelopeEntity->toArray(), true); 
