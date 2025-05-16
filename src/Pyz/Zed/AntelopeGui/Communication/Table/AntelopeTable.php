@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pyz\Zed\AntelopeGui\Communication\Table;
 
+use Orm\Zed\Antelope\Persistence\Map\PyzAntelopeLocationTableMap;
 use Orm\Zed\Antelope\Persistence\Map\PyzAntelopeTableMap;
 use Orm\Zed\Antelope\Persistence\PyzAntelope;
 use Orm\Zed\Antelope\Persistence\PyzAntelopeQuery;
@@ -13,8 +14,10 @@ use Spryker\Zed\Gui\Communication\Table\TableConfiguration;
 
 class AntelopeTable extends AbstractTable
 {
-    public const string COL_ID_ANTELOPE = PyzAntelopeTableMap::COL_ID_ANTELOPE;
-    public const string COL_NAME = PyzAntelopeTableMap::COL_NAME;
+    public const COL_ID_ANTELOPE = PyzAntelopeTableMap::COL_ID_ANTELOPE;
+
+    public const COL_NAME = PyzAntelopeTableMap::COL_NAME;
+    public const COL_ANTELOPE_LOCATION_NAME = PyzAntelopeLocationTableMap::COL_LOCATION_NAME;
 
 
     public function __construct(protected PyzAntelopeQuery $antelopeQuery)
@@ -31,18 +34,21 @@ class AntelopeTable extends AbstractTable
         $config->setHeader([
             static::COL_ID_ANTELOPE => 'Antelope ID',
             static::COL_NAME => 'Name',
+            static::COL_ANTELOPE_LOCATION_NAME => 'Location'
 
         ]);
 
         $config->setSortable([
             static::COL_ID_ANTELOPE,
             static::COL_NAME,
+            static::COL_ANTELOPE_LOCATION_NAME
 
         ]);
 
         $config->setSearchable([
             static::COL_ID_ANTELOPE,
             static::COL_NAME,
+            static::COL_ANTELOPE_LOCATION_NAME
         ]);
 
         return $config;
@@ -55,8 +61,9 @@ class AntelopeTable extends AbstractTable
      */
     protected function prepareData(TableConfiguration $config): array
     {
+        $query = $this->antelopeQuery->leftJoinPyzAntelopeLocation();
         $antelopeEntityCollection = $this->runQuery(
-            $this->antelopeQuery,
+            $query,
             $config,
             true
         );
@@ -71,16 +78,19 @@ class AntelopeTable extends AbstractTable
     /**
      * @param ObjectCollection<PyzAntelope> $antelopeEntityCollection
      *
-     * @return array<int,mixed>
+     * @return array<int, mixed>
      */
-    protected function mapReturns(ObjectCollection $antelopeEntityCollection
-    ): array {
+    protected function mapReturns(ObjectCollection $antelopeEntityCollection): array
+    {
         $returns = [];
-
+        /** @var PyzAntelope $antelopeEntity */
         foreach ($antelopeEntityCollection as $antelopeEntity) {
+            $antelopeLocation = $antelopeEntity->getPyzAntelopeLocation();
+            $locationName = $antelopeLocation ? $antelopeLocation->getLocationName() : '';
             $returns[] = [
                 static::COL_ID_ANTELOPE => $antelopeEntity->getIdAntelope(),
-                static::COL_NAME => $antelopeEntity->getName()
+                static::COL_ANTELOPE_LOCATION_NAME => $locationName,
+                static::COL_NAME => $antelopeEntity->getName(),
             ];
         }
 
