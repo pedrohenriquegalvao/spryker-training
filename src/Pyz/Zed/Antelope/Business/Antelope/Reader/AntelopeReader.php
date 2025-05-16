@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pyz\Zed\Antelope\Business\Antelope\Reader;
 
+use Generated\Shared\Transfer\AntelopeCollectionTransfer;
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
 use Generated\Shared\Transfer\AntelopeResponseTransfer;
 use Pyz\Zed\Antelope\Business\AntelopeBusinessFactory;
@@ -29,5 +30,14 @@ class AntelopeReader
         $antelopeResponseTransfer->setAntelope($antelopeTransfer);
         $antelopeResponseTransfer->setIsSuccessFul(true);
         return $antelopeResponseTransfer;
+    }
+
+    public function getAntelopeCollection(AntelopeCriteriaTransfer $antelopeCriteriaTransfer
+    ): AntelopeCollectionTransfer {
+        $antelopeTransfers = $this->antelopeRepository->getAntelopeCollection($antelopeCriteriaTransfer);
+
+        $antelopeCollectionTransfer = new AntelopeCollectionTransfer();
+        $antelopeCollectionTransfer->setAntelopes($antelopeTransfers->getAntelopes());
+        return $antelopeCollectionTransfer;
     }
 }
