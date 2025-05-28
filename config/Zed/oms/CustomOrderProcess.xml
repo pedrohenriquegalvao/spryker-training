@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<statemachine
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="spryker:oms-01"
+    xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
+    <!-- Modified XML for OMS implementation -->
+
+    <process name="CustomOrderProcess" main="true">
+        <states>
+            <state name="new"/>
+            <state name="paid"/>
+            <state name="shipped"/>
+            <state name="canceled"/>
+            <state name="closed"/>
+        </states>
+
+        <transitions>
+            <!-- Transition from new to paid when payment is authorized -->
+            <transition condition="CustomOrderProcess/IsPaymentAuthorized" happy="true">
+                <source>new</source>
+                <target>paid</target>
+                <event>authorize_payment</event>
+            </transition>
+
+            <!-- Transition from new to canceled if payment fails -->
+            <transition>
+                <source>new</source>
+                <target>canceled</target>
+                <event>cancel_order</event>
+            </transition>
+
+            <!-- Transition from paid to shipped when the order is ready to ship -->
+            <transition happy="true">
+                <source>paid</source>
+                <target>shipped</target>
+                <event>ship_order</event>
+            </transition>
+
+            <!-- Transition from shipped to closed when the shipment is confirmed -->
+            <transition happy="true">
+                <source>shipped</source>
+                <target>closed</target>
+                <event>close</event>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="authorize_payment" onEnter="true" command="CustomOrderProcess/AuthorizePayment"/>
+            <event name="ship_order" manual="true" command="CustomOrderProcess/ShipOrder"/>
+            <event name="cancel_order" onEnter="true"/>
+            <event name="close" timeout="14 days"/>
+        </events>
+    </process>
+</statemachine>
