@@ -9,6 +9,12 @@ namespace Pyz\Zed\Antelope\Business;
 
 use Pyz\Zed\Antelope\Business\Antelope\Reader\AntelopeReader;
 use Pyz\Zed\Antelope\Business\Antelope\Reader\AntelopeReaderInterface;
+use Pyz\Zed\Antelope\Business\Deleter\AntelopeDeleter;
+use Pyz\Zed\Antelope\Business\Deleter\AntelopeDeleterInterface;
+use Pyz\Zed\Antelope\Business\Updater\AntelopeUpdater;
+use Pyz\Zed\Antelope\Business\Updater\AntelopeUpdaterInterface;
+use Pyz\Zed\Antelope\Business\Writer\AntelopeWriter;
+use Pyz\Zed\Antelope\Business\Writer\AntelopeWriterInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
@@ -24,5 +30,20 @@ class AntelopeBusinessFactory extends AbstractBusinessFactory
     public function createAntelopeReader(): AntelopeReaderInterface
     {
         return new AntelopeReader($this->getRepository());
+    }
+
+    public function createAntelopeWriter(): AntelopeWriterInterface
+    {
+        return new AntelopeWriter($this->getEntityManager());
+    }
+
+    public function createAntelopeUpdater(): AntelopeUpdaterInterface
+    {
+        return new AntelopeUpdater($this->getEntityManager());
+    }
+
+    public function createAntelopeDeleter(): AntelopeDeleterInterface
+    {
+        return new AntelopeDeleter($this->getEntityManager());
     }
 }
