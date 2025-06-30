@@ -39,4 +39,14 @@ class AntelopeBusinessFactory extends AbstractBusinessFactory
     {
         return new AntelopeLocationReader($this->getRepository());
     }
+
+    public function createAntelopeLocationDeleter(): AntelopeLocationDeleter
+    {
+        return new AntelopeLocationDeleter($this->getEntityManager());
+    }
+
+    public function createAntelopeLocationUpdater(): AntelopeLocationUpdater
+    {
+        return new AntelopeLocationUpdater($this->getEntityManager());
+    }
 }

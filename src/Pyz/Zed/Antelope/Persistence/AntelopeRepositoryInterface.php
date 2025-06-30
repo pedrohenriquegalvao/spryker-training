@@ -18,6 +18,13 @@ interface AntelopeRepositoryInterface
         AntelopeCriteriaTransfer $antelopeCriteriaTransfer
     ): ?AntelopeTransfer;
 
+    public function findAntelopeLocationCollection(
+        AntelopeLocationCriteriaTransfer $criteriaTransfer,
+    ): AntelopeLocationCollectionTransfer;
+
     public function getAntelopeLocationById(int $idLocation
     ): ?AntelopeLocationTransfer;
+
+    public function getAntelopeLocationsCollection(): AntelopeLocationCollectionTransfer;
+
 }

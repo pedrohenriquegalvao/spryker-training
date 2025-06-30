@@ -40,4 +40,29 @@ class AntelopeEntityManager extends AbstractEntityManager implements
         $antelopeEntity->delete();
         return $antelopeEntity->isDeleted();
     }
+    
+    public function deleteAntelopeLocation(AntelopeLocationTransfer $antelopeLocationTransfer): int
+    {
+        return $this->getFactory()->createAntelopeLocationQuery()->filterByPrimaryKey(
+            $antelopeLocationTransfer->getIdAntelopeLocation(),
+        )->delete();
+    }
+
+    public function updateAntelopeLocation(AntelopeLocationTransfer $antelopeLocationTransfer): AntelopeLocationTransfer
+    {
+        $pyzAntelopeLocationEntity = $this->getFactory()->createAntelopeLocationQuery()->filterByIdAntelopeLocation(
+            $antelopeLocationTransfer->getIdAntelopeLocation(),
+        )->findOne();
+
+        $pyzAntelopeLocationEntity = $this->getFactory()->createAntelopeLocationMapper(
+        )->mapAntelopeLocationTransferToEntity(
+            $antelopeLocationTransfer,
+            $pyzAntelopeLocationEntity,
+        );
+        $pyzAntelopeLocationEntity->save();
+        return $this->getFactory()->createAntelopeLocationMapper()->mapAntelopeLocationEntityToTransfer(
+            $pyzAntelopeLocationEntity,
+            $antelopeLocationTransfer,
+        );
+    }
 }

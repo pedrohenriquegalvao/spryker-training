@@ -58,4 +58,37 @@ class AntelopeRepository extends AbstractRepository implements
         }
         return $result;
     }
+    
+    public function findAntelopeLocationCollection(
+        AntelopeLocationCriteriaTransfer $antelopeLocationCriteriaTransfer,
+    ): AntelopeLocationCollectionTransfer {
+        return $this->getAntelopeLocations($antelopeLocationCriteriaTransfer);
+    }
+
+    public function getAntelopeLocations(AntelopeLocationCriteriaTransfer $antelopeLocationCriteriaTransfer
+    ): AntelopeLocationCollectionTransfer {
+        $query = $this->getFactory()->createAntelopeLocationQuery();
+        $name = $antelopeLocationCriteriaTransfer->getAntelopeLocationsConditions()->getName();
+        if ($name) {
+            $query->filterByLocationName($name);
+        }
+        $idLocation = $antelopeLocationCriteriaTransfer->getAntelopeLocationsConditions()->getIdAntelopeLocation();
+        if ($idLocation) {
+            $query->filterByIdAntelopeLocation($idLocation);
+        }
+
+        $antelopeLocations = $query->find();
+        
+        $antelopeLocationMapper = $this->getFactory()->createAntelopeLocationMapper();
+
+        return $antelopeLocationMapper->mapAntelopeLocationEntitiesToCollectionTransfer(
+            $antelopeLocations,
+        );
+    }
+
+    public function getAntelopeLocationsCollection(): AntelopeLocationCollectionTransfer
+    {
+        return $this->getAntelopeLocations(new AntelopeLocationCriteriaTransfer());
+    }
+
 }

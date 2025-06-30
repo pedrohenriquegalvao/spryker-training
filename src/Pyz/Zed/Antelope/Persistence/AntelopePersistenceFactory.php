@@ -19,4 +19,9 @@ class AntelopePersistenceFactory extends AbstractPersistenceFactory
     {
         return PyzAntelopeLocationQuery::create();
     }
+
+    public function createAntelopeLocationMapper(): AntelopeLocationMapper
+    {
+        return new AntelopeLocationMapper();
+    }
 }

@@ -15,4 +15,10 @@ interface AntelopeEntityManagerInterface
     public function createAntelopeLocation(
         AntelopeLocationTransfer $antelopeLocationTransfer
     ): AntelopeLocationTransfer;
+
+    public function deleteAntelopeLocation(AntelopeLocationTransfer $antelopeTransfer): int;
+
+    public function updateAntelopeLocation(AntelopeLocationTransfer $antelopeLocationTransfer
+    ): AntelopeLocationTransfer;
+    
 }

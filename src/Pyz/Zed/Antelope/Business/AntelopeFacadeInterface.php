@@ -28,7 +28,22 @@ interface AntelopeFacadeInterface
         int $idLocation
     ): ?AntelopeLocationTransfer;
 
+    public function getAntelopeLocation(
+        AntelopeLocationCriteriaTransfer $antelopeLocationCriteria,
+    ): AntelopeLocationResponseTransfer;
+
+    public function getAntelopeLocationCollection(AntelopeLocationCriteriaTransfer $criteriaTransfer
+    ): AntelopeLocationCollectionTransfer;
+
     public function getAntelopes(
         AntelopeCriteriaTransfer $antelopeCriteriaTransfer
     ): ?array;
+
+    public function getAntelopeLocations(): AntelopeLocationCollectionTransfer;
+
+    public function deleteAntelopeLocation(AntelopeLocationTransfer $antelopeLocationTransfer): int;
+
+    public function updateAntelopeLocation(AntelopeLocationTransfer $antelopeLocationTransfer
+    ): AntelopeLocationTransfer;
+
 }
