@@ -112,6 +112,8 @@ use Spryker\Zed\StoreStorage\Communication\Plugin\Publisher\Store\StoreSynchroni
 use Spryker\Zed\StoreStorage\Communication\Plugin\Publisher\Store\StoreWritePublisherPlugin;
 use Spryker\Zed\TaxProductStorage\Communication\Plugin\Publisher\TaxProductPublisherTriggerPlugin;
 use Spryker\Zed\TaxStorage\Communication\Plugin\Publisher\TaxSetPublisherTriggerPlugin;
+use Pyz\Shared\AntelopeSearch\AntelopeSearchConfig;
+use Pyz\Zed\AntelopeSearch\Communication\Plugin\Publisher\AntelopeWritePublisherPlugin;
 
 class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
 {
@@ -138,6 +140,7 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
             $this->getAssetStoragePlugins(),
             $this->getCustomerStoragePlugins(),
             $this->getProductMessageBrokerPlugins(),
+            $this->getAntelopeSearchPlugins(),
         );
     }
 
@@ -185,6 +188,15 @@ class PublisherDependencyProvider extends SprykerPublisherDependencyProvider
             new FileManagerPublisherTriggerPlugin(),
             new AssetPublisherTriggerPlugin(),
             new CustomerAccessPublisherTriggerPlugin(),
+        ];
+    }
+
+    protected function getAntelopeSearchPlugins(): array
+    {
+        return [
+            AntelopeSearchConfig::ANTELOPE_PUBLISH_SEARCH_QUEUE => [
+                new AntelopeWritePublisherPlugin(),
+            ],
         ];
     }
 
